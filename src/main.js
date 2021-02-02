@@ -5,6 +5,9 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+//import fontawesome icons
+require('./plugins/fontawesome');
+
 new Vue({
   router,
   store,

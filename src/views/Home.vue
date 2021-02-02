@@ -1,18 +1,33 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="main">
+      <List title="Main list" :contacts="contacts"/>
+      <List title="Secondary list" :contacts="secondaryList" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import {mapState} from 'vuex'
+import List from '@/components/List.vue'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  components: { List },
+  computed: {
+        ...mapState(['contacts', 'secondaryList'])
+    },
+  created(){
+      this.$store.dispatch('getContacts')
   }
 }
 </script>
+
+<style>
+
+.main{
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 2rem;
+    height: 90vh;
+}
+
+</style>
