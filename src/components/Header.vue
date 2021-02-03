@@ -19,7 +19,7 @@ export default {
     justify-content: center;
     height: 10vh;
     border-radius: 0 0 85% 75% / 80%;
-    background-color: rgb(184, 215, 255);
+    background-color: rgb(175, 205, 250);
 }
 
 

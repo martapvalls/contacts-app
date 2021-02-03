@@ -4,7 +4,7 @@
         <Search @click="searchContact"/>
         <ul class="list__items" v-if="filteredContacts">
             <li v-for="contact in filteredContacts" :key="contact.id" class="list__item">
-                <Contact :contact="contact"/>          
+                <Contact :contact="contact" />          
             </li>
             <span v-if="filteredContacts.length === 0" class="list__result"> there aren't results for this name</span>
         </ul>
@@ -12,15 +12,21 @@
         <ul class="list__items">
             <div class="list__sort">
                 <span>Sort by:</span>
-                <span class="list__sort__title" @click="sortByFirstName(contacts)">First Name</span>
-                <span class="list__sort__title" @click="sortByLastName(contacts)"> Last Name</span>
-                <span class="list__sort__title" @click="sortByEmail(contacts)">Email</span>
+                <span class="list__sort__title" @click="sortFirstName()">First Name</span>
+                <span class="list__sort__title" @click="sortLastName()"> Last Name</span>
+                <span class="list__sort__title" @click="sortEmail()">Email</span>
             </div>
             <li v-for="contact in contacts" :key="contact.id" class="list__item">
-                <Contact :contact="contact"/>          
+                <Contact :contact="contact" :list="list"/>          
             </li>
         </ul>
-        <FormModal v-if="openModal"/>
+        <div v-if="list === 'main'">
+            <FormModal v-if="openModalmain" :list="list"/>
+        </div>
+        <div v-if="list === 'secondary'">
+            <FormModal v-if="openModalsecondary" :list="list"/>
+        </div>
+        
         <button class="item__button"><font-awesome-icon icon="user-plus" class="list__add-user" @click="modalForm()"/></button>
     </div>
 </template>
@@ -33,7 +39,7 @@ import { mapState, mapMutations } from 'vuex'
 
 export default {
     name: 'List',
-    props: [ 'title', 'contacts'],
+    props: [ 'title', 'contacts', 'list'],
     components: { Contact, Search, FormModal },
     data(){
         return {
@@ -47,9 +53,28 @@ export default {
         },
         modalForm(){
             let payload = {
-                action: 'Add'
+                action: 'Add',
+                list: this.list
             }
             this.openModalForm(payload)
+        },
+        sortFirstName(){
+            let payload = {
+                list: this.list
+            }
+            this.sortByFirstName(payload)
+        },
+        sortLastName(){
+            let payload = {
+                list: this.list
+            }
+            this.sortByLastName(payload)
+        },
+        sortEmail(){
+            let payload = {
+                list: this.list
+            }
+            this.sortByEmail(payload)
         }
     },
     computed: {
@@ -58,7 +83,7 @@ export default {
             if(this.query != '') return this.contacts.filter(contact => contact.first_name.toLowerCase().match(this.query.toLowerCase()))
             else return undefined
         },
-        ...mapState(['openModal'])
+        ...mapState(['openModalmain', 'openModalsecondary'])
     }
 }
 </script>
@@ -76,7 +101,8 @@ export default {
 }
 
 .list{
-    border: 1px solid red;
+    border: 1px solid white;
+    border-radius: 15%;
     width: 45%;
     height: 90%;
     display: flex;

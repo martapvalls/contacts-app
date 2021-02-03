@@ -18,7 +18,6 @@ export default {
     methods:{
         searchContact(){
             this.$emit("click", this.query)
-            console.log(this.query)
             this.query = ''
         }
   } 

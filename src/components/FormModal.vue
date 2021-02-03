@@ -22,8 +22,8 @@
                 <label>Male</label>
             </div>
             <button type="submit" class="modal__button" v-if="action === 'Add'" > {{action}} </button>
-            <button @click="openModalForm" type="button" class="modal__button" v-if="action === 'Edit'" > {{action}} </button>
-            <button @click="openModalForm" type="button" class="modal__button"> Cancel </button>
+            <button @click="onEdit" type="button" class="modal__button" v-if="action === 'Edit'" > {{action}} </button>
+            <button @click="closeModal" type="button" class="modal__button" v-if="action === 'Add'"> Cancel </button>
         </form>
     </div>
 </template>
@@ -33,6 +33,7 @@ import { mapMutations, mapState } from 'vuex'
 
 export default {
     name: 'FormModal',
+    props: ['list'],
     data(){
         return{
             first_name: '',
@@ -42,19 +43,36 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['addNewcontact','openModalForm']),
+        ...mapMutations(['addNewcontact','openModalForm', 'closeModalForm']),
         newContact(event){
             event.preventDefault()
-
+            console.log(this.list)
             let contact_ = {
                 first_name: this.first_name.charAt(0).toUpperCase() + this.first_name.slice(1),
                 last_name: this.last_name.charAt(0).toUpperCase() + this.last_name.slice(1),
                 gender: this.gender,
                 email: this.email
             }
-            this.addNewcontact(contact_)
+
+            let payload = {
+                contact : contact_,
+                list: this.list
+            }
+            this.addNewcontact(payload)
             this.openModalForm()
         },
+        closeModal(){
+            let payload = {
+                list: this.list
+            }
+            this.closeModalForm(payload)
+        },
+        onEdit(){
+            let payload = {
+                list: this.list
+            }
+            this.closeModalForm(payload)
+        }
     },
     computed: {
         ...mapState(['action', 'contact'])

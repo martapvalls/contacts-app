@@ -1,7 +1,7 @@
 <template>
   <div class="main">
-      <List title="Main list" :contacts="contacts"/>
-      <List title="Secondary list" :contacts="secondaryList" />
+      <List title="Main list" :contacts="contacts" :list="main"/>
+      <List title="Secondary list" :contacts="secondaryList" :list="secondary" />
   </div>
 </template>
 
@@ -14,6 +14,12 @@ export default {
   components: { List },
   computed: {
         ...mapState(['contacts', 'secondaryList'])
+    },
+    data(){
+      return{
+        main: 'main',
+        secondary: 'secondary'
+      }
     },
   created(){
       this.$store.dispatch('getContacts')

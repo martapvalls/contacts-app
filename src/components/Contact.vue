@@ -9,8 +9,8 @@
         </div>
         <div class="item__buttons">
             <button class="item__button"> <font-awesome-icon icon="edit" @click="modalForm(contact)"/> </button>
-            <button class="item__button"> <font-awesome-icon icon="trash-alt" @click="removeContact(contact.id)"/> </button>
-            <button class="item__button"> <font-awesome-icon icon="arrows-alt-h" @click="addContactToSecondaryList(contact.id)"/> </button>
+            <button class="item__button"> <font-awesome-icon icon="trash-alt" @click="deleteContact(contact.id)"/> </button>
+            <button class="item__button"> <font-awesome-icon icon="arrows-alt-h" @click="addContactToOtherList(contact.id)"/> </button>
         </div>
     </div>
 </template>
@@ -20,15 +20,30 @@ import { mapMutations } from 'vuex'
 
 export default {
     name: 'Contact',
-    props: ['contact'],
+    props: ['contact', 'list'],
     methods: {
         ...mapMutations(['removeContact', 'addContactToSecondaryList', 'openModalForm']),
         modalForm(contact){
             let payload = {
                 action: 'Edit',
-                contact: contact
+                contact: contact,
+                list: this.list
             }
             this.openModalForm(payload)
+        },
+        addContactToOtherList(id){
+            let payload = {
+                list: this.list,
+                id: id
+            }
+            this.addContactToSecondaryList(payload)
+        },
+        deleteContact(id){
+            let payload = {
+                list: this.list,
+                id: id
+            }
+            this.removeContact(payload)
         }
     }
 }
@@ -38,9 +53,13 @@ export default {
 
 .item{
     display: flex;
-    border: 1px solid red;
+    border: 1px solid white;
+    border-radius: 15px;
     justify-content: space-between;
     padding: .2rem 2rem;
+    margin: .2rem;
+    background-color: rgb(175, 205, 250)
+
 }
 .item__data{
     display: flex;
