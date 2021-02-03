@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-const url = 'http://localhost:8080/data/contacts.json'
 
 Vue.use(Vuex)
 
@@ -99,7 +98,7 @@ export default new Vuex.Store({
   actions: {
         async getContacts({commit}){
             try {
-                const response = await axios.get(url)
+                const response = await axios.get('data/contacts.json', { baseURL: window.location.Origin })
                 commit('uploadContacts', response.data)
             } catch (error) {
                 throw error.message

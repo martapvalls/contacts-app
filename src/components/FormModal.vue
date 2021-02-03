@@ -46,7 +46,6 @@ export default {
         ...mapMutations(['addNewcontact','openModalForm', 'closeModalForm']),
         newContact(event){
             event.preventDefault()
-            console.log(this.list)
             let contact_ = {
                 first_name: this.first_name.charAt(0).toUpperCase() + this.first_name.slice(1),
                 last_name: this.last_name.charAt(0).toUpperCase() + this.last_name.slice(1),
