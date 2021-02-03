@@ -4,7 +4,7 @@
         <Search @click="searchContact"/>
         <ul class="list__items" v-if="filteredContacts">
             <li v-for="contact in filteredContacts" :key="contact.id" class="list__item">
-                <Contact :contact="contact" />          
+                <Contact :contact="contact" :list="list"/>          
             </li>
             <span v-if="filteredContacts.length === 0" class="list__result"> there aren't results for this name</span>
         </ul>
